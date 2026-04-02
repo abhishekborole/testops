@@ -4,14 +4,17 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
 from app.core.logging import setup_logging, logger
-from app.routers import auth, users, tasks, ref, runs
+from app.routers import auth, users, tasks, ref, runs, ai, stream
+from app.services.kafka_service import kafka_service
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     setup_logging()
     logger.info("TestOPS API starting — env=%s", settings.APP_ENV)
+    await kafka_service.start()
     yield
+    await kafka_service.stop()
     logger.info("TestOPS API shutting down")
 
 
@@ -38,6 +41,8 @@ app.include_router(users.router, prefix=API_PREFIX)
 app.include_router(tasks.router, prefix=API_PREFIX)
 app.include_router(ref.router, prefix=API_PREFIX)
 app.include_router(runs.router, prefix=API_PREFIX)
+app.include_router(ai.router, prefix=API_PREFIX)
+app.include_router(stream.router, prefix=API_PREFIX)
 
 
 @app.get("/health", tags=["Health"])

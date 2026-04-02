@@ -39,7 +39,7 @@ function AgentEvent({ event }) {
 }
 
 export default function Monitor() {
-  const { runs, activeId, setActiveId, openLogs, toggleLog, agentEvents, mFilter, setMFilter, aiCache, setCacheItem, catsArr } = useStore();
+  const { runs, activeId, setActiveId, openLogs, toggleLog, agentEvents, mFilter, setMFilter, aiCache, setCacheItem, catsArr, rerun } = useStore();
   const [selectedCat, setSelectedCat] = useState(null);
   const [logSummaryHtml, setLogSummaryHtml] = useState({});
   const [summaryLoading, setSummaryLoading] = useState({});
@@ -123,6 +123,15 @@ export default function Monitor() {
                 >
                   {overallVerdict.icon} {overallVerdict.label}
                 </div>
+                {run.status !== 'running' && (
+                  <button
+                    className="btn btn-sm btn-primary"
+                    onClick={() => rerun(run)}
+                    title="Re-run with same config"
+                  >
+                    ↺ Rerun
+                  </button>
+                )}
               </div>
             </div>
 

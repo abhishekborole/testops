@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import useStore from '../store/useStore.js';
 import { M, ML } from '../data/constants.js';
 import { runsApi } from '../utils/api.js';
-import { mkId, fakeLog, calcStats } from '../utils/helpers.js';
+import { mkId, calcStats } from '../utils/helpers.js';
 import { llm } from '../utils/llm.js';
 
 function AiPanel({ title, model, content, loading, icon }) {
@@ -37,149 +37,164 @@ function AiPanel({ title, model, content, loading, icon }) {
   );
 }
 
-// ─── Simulation ──────────────────────────────────────────────────────────────
-async function doSimulate(runId, categories, store) {
+// Module-level map so EventSource survives component unmount/remount
+const activeStreams = new Map(); // runId → EventSource
+
+// ─── Monitoring Agent — Kafka SSE listener ───────────────────────────────────
+// Connects to the backend SSE stream which fans out messages from testops-topic.
+// Each Kafka message carries { run_id, event, ... } — see message format in
+// backend/app/services/kafka_service.py and the stream router.
+function kafkaMonitor(runId, store) {
   const { updateTest, updateRun, pushEvent } = store;
-  const allTests = [];
-  categories.forEach(cat => {
-    cat.tests.forEach((test, idx) => {
-      allTests.push({ catId: cat.id, testIdx: idx, name: test.name });
-    });
+
+  // Close any stale stream for this run before opening a new one
+  activeStreams.get(runId)?.close();
+
+  const es = new EventSource(`/api/v1/runs/${runId}/stream`);
+  activeStreams.set(runId, es);
+
+  pushEvent(runId, {
+    type: 'info',
+    title: '🤖 Monitor Agent',
+    body: `Connected to Kafka stream for run ${runId}`,
+    time: new Date().toLocaleTimeString(),
   });
 
-  let completedCount = 0;
-  for (const item of allTests) {
-    // Set running
-    updateTest(runId, item.catId, item.testIdx, { status: 'running' });
-    const duration = 380 + Math.random() * 750;
-    await new Promise(r => setTimeout(r, duration));
+  es.onmessage = (event) => {
+    let msg;
+    try { msg = JSON.parse(event.data); } catch { return; }
 
-    const ok = Math.random() < 0.88;
-    const log = fakeLog(item.name, ok);
-    updateTest(runId, item.catId, item.testIdx, {
-      status: ok ? 'passed' : 'failed',
-      log,
-      duration: Math.round(duration)
-    });
-    completedCount++;
+    const now = new Date().toLocaleTimeString();
 
-    pushEvent(runId, {
-      type: ok ? 'success' : 'error',
-      title: ok ? 'Test Passed' : 'Test Failed',
-      body: item.name,
-      time: new Date().toLocaleTimeString()
-    });
-  }
+    // ── test_update ──────────────────────────────────────────────────────────
+    if (msg.event === 'test_update') {
+      const run = useStore.getState().runs.find(r => r.id === runId);
+      const cat = run?.categories.find(c => c.id === msg.category_id);
+      const testIdx = cat?.tests.findIndex(t => t.name === msg.test_name);
 
-  // Calculate final stats
-  const state = store.getState ? store.getState() : null;
-  // Recalculate from store
-  setTimeout(() => {
-    const storeRuns = useStore.getState().runs;
-    const run = storeRuns.find(r => r.id === runId);
-    if (!run) return;
-    let totalPassed = 0, totalTests = 0;
-    run.categories.forEach(cat => {
-      cat.tests.forEach(t => {
-        totalTests++;
-        if (t.status === 'passed') totalPassed++;
-      });
-    });
-    const rate = totalTests > 0 ? Math.round((totalPassed / totalTests) * 100) : 0;
-    const verdict = rate >= 95 ? 'ready' : rate >= 75 ? 'at-risk' : 'not-ready';
-    updateRun(runId, {
-      status: rate < 60 ? 'failed' : 'completed',
-      overallRate: rate,
-      verdict,
-      completedAt: new Date().toISOString()
-    });
-    pushEvent(runId, {
-      type: rate >= 95 ? 'success' : rate >= 75 ? 'warn' : 'error',
-      title: 'Run Completed',
-      body: `Overall pass rate: ${rate}% — ${verdict.replace('-', ' ')}`,
-      time: new Date().toLocaleTimeString()
-    });
-  }, 100);
-}
+      if (cat && testIdx >= 0) {
+        updateTest(runId, msg.category_id, testIdx, {
+          status: msg.status,
+          log: msg.log ?? '',
+          duration: msg.duration_ms ?? null,
+        });
 
-// ─── Monitoring Agent ────────────────────────────────────────────────────────
-function agMonitor(runId, pushEvent) {
-  let seenTests = new Set();
-  let checkCount = 0;
+        if (msg.status === 'passed' || msg.status === 'failed') {
+          pushEvent(runId, {
+            type: msg.status === 'passed' ? 'success' : 'error',
+            title: msg.status === 'passed' ? 'Test Passed' : 'Test Failed',
+            body: msg.test_name,
+            time: now,
+          });
 
-  const interval = setInterval(() => {
-    const runs = useStore.getState().runs;
-    const run = runs.find(r => r.id === runId);
-    if (!run) { clearInterval(interval); return; }
+          // Alert on critical category failure
+          if (msg.status === 'failed') {
+            const catDef = useStore.getState().catsArr.find(c => c.id === msg.category_id);
+            if (catDef?.critical) {
+              pushEvent(runId, {
+                type: 'error',
+                title: '⚠ Critical Failure Detected',
+                body: `${msg.test_name} failed in critical category ${catDef.name}`,
+                time: now,
+              });
+            }
 
-    if (run.status !== 'running') {
-      clearInterval(interval);
-      pushEvent(runId, {
-        type: 'ai',
-        title: '🤖 Monitor Agent',
-        body: 'Run completed. Monitoring stopped.',
-        time: new Date().toLocaleTimeString()
-      });
-      return;
-    }
-
-    checkCount++;
-    if (!run.categories) return;
-
-    run.categories.forEach(cat => {
-      cat.tests.forEach((test, idx) => {
-        const key = `${cat.id}-${idx}`;
-        if (seenTests.has(key)) return;
-        if (test.status === 'passed' || test.status === 'failed') {
-          seenTests.add(key);
-          const catDef = useStore.getState().catsArr.find(c => c.id === cat.id);
-          if (test.status === 'failed' && catDef?.critical) {
-            pushEvent(runId, {
-              type: 'error',
-              title: '⚠ Critical Failure Detected',
-              body: `${test.name} failed in critical category ${catDef.name}`,
-              time: new Date().toLocaleTimeString()
-            });
+            // Weak category warning — check after each failure
+            const updatedRun = useStore.getState().runs.find(r => r.id === runId);
+            const updatedCat = updatedRun?.categories.find(c => c.id === msg.category_id);
+            if (updatedCat) {
+              const s = calcStats(updatedCat.tests);
+              if (s.total > 0 && s.passed + s.failed >= 3 && s.rate < 70) {
+                pushEvent(runId, {
+                  type: 'warn',
+                  title: '⚠ Weak Category',
+                  body: `${cat.name} is at ${s.rate}% pass rate — below 70% threshold`,
+                  time: now,
+                });
+              }
+            }
           }
         }
-      });
-    });
-
-    // Every 10 checks, analyze weak categories
-    if (checkCount % 10 === 0) {
-      run.categories.forEach(cat => {
-        const s = calcStats(cat.tests);
-        if (s.total > 0 && s.rate < 70 && s.passed + s.failed > 2) {
-          pushEvent(runId, {
-            type: 'warn',
-            title: '⚠ Weak Category',
-            body: `${cat.id} is at ${s.rate}% pass rate — below 70% threshold`,
-            time: new Date().toLocaleTimeString()
-          });
-        }
-      });
+      }
     }
-  }, 600);
 
-  return interval;
+    // ── run_completed ────────────────────────────────────────────────────────
+    if (msg.event === 'run_completed') {
+      // Use server-provided rate or compute from store
+      let rate = msg.overall_rate;
+      if (rate == null) {
+        const finalRun = useStore.getState().runs.find(r => r.id === runId);
+        const allTests = finalRun?.categories.flatMap(c => c.tests) ?? [];
+        const passed = allTests.filter(t => t.status === 'passed').length;
+        rate = allTests.length > 0 ? Math.round((passed / allTests.length) * 100) : 0;
+      }
+
+      const verdict = rate >= 95 ? 'ready' : rate >= 75 ? 'at-risk' : 'not-ready';
+      const finalStatus = rate < 60 ? 'failed' : 'completed';
+      const completedAt = msg.timestamp ?? new Date().toISOString();
+
+      updateRun(runId, { status: finalStatus, overallRate: rate, verdict, completedAt });
+
+      pushEvent(runId, {
+        type: rate >= 95 ? 'success' : rate >= 75 ? 'warn' : 'error',
+        title: '🤖 Monitor Agent',
+        body: `Run completed — ${rate}% pass rate (${verdict.replace('-', ' ')})`,
+        time: now,
+      });
+
+      // Persist final state to DB
+      const finalCategories = useStore.getState().runs.find(r => r.id === runId)?.categories;
+      runsApi.update(runId, {
+        status: finalStatus,
+        overall_rate: rate,
+        verdict,
+        categories: finalCategories,
+        completed_at: completedAt,
+      }).catch(err => console.warn('Failed to persist run to DB:', err));
+
+      activeStreams.delete(runId);
+      es.close();
+    }
+  };
+
+  es.onerror = () => {
+    pushEvent(runId, {
+      type: 'warn',
+      title: '⚠ Monitor Agent',
+      body: 'Stream disconnected — reconnecting…',
+      time: new Date().toLocaleTimeString(),
+    });
+  };
+
+  return es;
 }
 
 export default function Execute() {
   const store = useStore();
-  const { runs, addRun, updateTest, updateRun, pushEvent, setActiveId, setView, selEnvVal, setSelEnv, aiCache, setCacheItem, locsMap, catsArr, envsArr, refDataLoaded } = store;
+  const { runs, addRun, updateTest, updateRun, pushEvent, setActiveId, setView, selEnvVal, setSelEnv, aiCache, setCacheItem, locsMap, catsArr, envsArr, refDataLoaded, pendingRerun, clearPendingRerun } = store;
 
   const [selectedLoc, setSelectedLoc] = useState('');
   const [selectedCluster, setSelectedCluster] = useState('');
   const [selectedScope, setSelectedScope] = useState([]);
   const [isRunning, setIsRunning] = useState(false);
+  const [runId, setRunId] = useState(() => mkId());
+  const [runIdCopied, setRunIdCopied] = useState(false);
 
-  // Initialise dropdown selections once DB data arrives
+  // Initialise dropdown selections once DB data arrives (or from a rerun)
   useEffect(() => {
     if (!refDataLoaded) return;
-    const firstLoc = Object.keys(locsMap)[0] ?? '';
-    setSelectedLoc(firstLoc);
-    setSelectedCluster(locsMap[firstLoc]?.clusters[0] ?? '');
-    setSelectedScope(catsArr.map(c => c.id));
+    if (pendingRerun) {
+      setSelectedLoc(pendingRerun.location);
+      setSelectedCluster(pendingRerun.cluster);
+      setSelEnv(pendingRerun.env);
+      setSelectedScope(pendingRerun.scopeIds);
+      clearPendingRerun();
+    } else {
+      const firstLoc = Object.keys(locsMap)[0] ?? '';
+      setSelectedLoc(firstLoc);
+      setSelectedCluster(locsMap[firstLoc]?.clusters[0] ?? '');
+      setSelectedScope(catsArr.map(c => c.id));
+    }
   }, [refDataLoaded]);
   const [preflightHtml, setPreflightHtml] = useState('');
   const [preflightLoading, setPreflightLoading] = useState(false);
@@ -247,11 +262,15 @@ export default function Execute() {
     setPatternsLoading(false);
   };
 
-  const handleExecute = async () => {
-    if (isRunning || selectedScope.length === 0) return;
-    setIsRunning(true);
+  const copyRunId = () => {
+    navigator.clipboard.writeText(runId);
+    setRunIdCopied(true);
+    setTimeout(() => setRunIdCopied(false), 2000);
+  };
 
-    const runId = mkId();
+  const handleExecute = async () => {
+    if (isRunning || selectedScope.length === 0 || !runId.trim()) return;
+    setIsRunning(true);
     const categories = selectedCats.map(cat => ({
       id: cat.id,
       name: cat.name,
@@ -294,39 +313,20 @@ export default function Execute() {
       started_at: startedAt,
     }).catch(err => console.warn('Failed to save run to DB:', err));
 
-    // Run preflight
+    // Start pre-flight AI analysis
     runPreflight();
 
-    // Start monitor agent
-    pushEvent(runId, {
-      type: 'info',
-      title: '🤖 Monitor Agent',
-      body: `Monitoring run ${runId} on ${selectedCluster}`,
-      time: new Date().toLocaleTimeString()
-    });
-
-    monitorRef.current = agMonitor(runId, pushEvent);
-
-    // Start simulation
-    await doSimulate(runId, categories, {
+    // Connect monitoring agent to Kafka SSE stream — updates flow in as
+    // the external test framework publishes to testops-topic
+    if (monitorRef.current) monitorRef.current.close();
+    monitorRef.current = kafkaMonitor(runId, {
       updateTest: store.updateTest,
       updateRun: store.updateRun,
       pushEvent: store.pushEvent,
     });
 
-    // Patch DB with final run state
-    const finalRun = useStore.getState().runs.find(r => r.id === runId);
-    if (finalRun) {
-      runsApi.update(runId, {
-        status: finalRun.status,
-        overall_rate: finalRun.overallRate,
-        verdict: finalRun.verdict,
-        categories: finalRun.categories,
-        completed_at: finalRun.completedAt,
-      }).catch(err => console.warn('Failed to update run in DB:', err));
-    }
-
     setIsRunning(false);
+    setRunId(mkId()); // pre-generate ID for the next run
     setView('monitor');
   };
 
@@ -348,6 +348,43 @@ export default function Execute() {
             <div className="card-title">⚙ Run Configuration</div>
           </div>
           <div className="card-body" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+
+            {/* Run ID — user-editable, shared with external test framework */}
+            <div className="form-group">
+              <label className="form-label">
+                Run ID
+                <span style={{ fontSize: 11, fontWeight: 400, color: 'var(--text3)', marginLeft: 8 }}>
+                  — share this with your test framework so Kafka messages are tagged correctly
+                </span>
+              </label>
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                <input
+                  className="form-input"
+                  style={{ fontFamily: 'var(--font-mono, monospace)', letterSpacing: '0.5px', flex: 1 }}
+                  value={runId}
+                  onChange={e => setRunId(e.target.value.trim())}
+                  placeholder="PRT-XXXXX-000"
+                  disabled={isRunning}
+                />
+                <button
+                  className="btn btn-sm btn-secondary"
+                  onClick={copyRunId}
+                  title="Copy Run ID"
+                  style={{ whiteSpace: 'nowrap' }}
+                >
+                  {runIdCopied ? '✓ Copied' : '⎘ Copy'}
+                </button>
+                <button
+                  className="btn btn-sm btn-ghost"
+                  onClick={() => setRunId(mkId())}
+                  title="Generate new Run ID"
+                  disabled={isRunning}
+                >
+                  ↺
+                </button>
+              </div>
+            </div>
+
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div className="form-group">
                 <label className="form-label">Data Centre / Location</label>
@@ -456,6 +493,17 @@ export default function Execute() {
             <div className="card-title">📋 Run Summary</div>
           </div>
           <div className="card-body" style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, alignItems: 'center' }}>
+              <span className="text-muted">Run ID</span>
+              <span
+                className="font-mono"
+                style={{ fontSize: 11, color: 'var(--accent)', cursor: 'pointer', fontWeight: 600 }}
+                onClick={copyRunId}
+                title="Click to copy"
+              >
+                {runId || '—'} {runIdCopied ? '✓' : ''}
+              </span>
+            </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
               <span className="text-muted">Location</span>
               <span className="font-bold">{locsMap[selectedLoc]?.label}</span>

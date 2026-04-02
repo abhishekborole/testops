@@ -2,27 +2,15 @@ export async function llm(messages, model, onChunk, sys) {
   const body = {
     model,
     max_tokens: 1000,
-    stream: true,
     messages,
-    system: sys || "You are a senior OpenShift/Kubernetes SRE. Be concise, specific, and actionable."
+    system: sys || "You are a senior OpenShift/Kubernetes SRE. Be concise, specific, and actionable.",
   };
 
-  const apiKey = window.__testops_api_key || '';
-  if (!apiKey) {
-    if (onChunk) onChunk('[No API key set. Please enter your Anthropic API key in the header.]');
-    return '[No API key set]';
-  }
-
   try {
-    const r = await fetch("https://api.anthropic.com/v1/messages", {
+    const r = await fetch("/api/v1/ai/stream", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": apiKey,
-        "anthropic-version": "2023-06-01",
-        "anthropic-dangerous-direct-browser-access": "true"
-      },
-      body: JSON.stringify(body)
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
     });
 
     if (!r.ok) {

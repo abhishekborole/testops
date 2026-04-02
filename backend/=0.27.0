@@ -1,0 +1,18 @@
+Collecting httpx
+  Using cached httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+Requirement already satisfied: anyio in c:\users\user\onedrive\claude\testops\backend\.venv\lib\site-packages (from httpx) (4.13.0)
+Collecting certifi (from httpx)
+  Using cached certifi-2026.2.25-py3-none-any.whl.metadata (2.5 kB)
+Collecting httpcore==1.* (from httpx)
+  Using cached httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+Requirement already satisfied: idna in c:\users\user\onedrive\claude\testops\backend\.venv\lib\site-packages (from httpx) (3.11)
+Requirement already satisfied: h11>=0.16 in c:\users\user\onedrive\claude\testops\backend\.venv\lib\site-packages (from httpcore==1.*->httpx) (0.16.0)
+Using cached httpx-0.28.1-py3-none-any.whl (73 kB)
+Using cached httpcore-1.0.9-py3-none-any.whl (78 kB)
+Using cached certifi-2026.2.25-py3-none-any.whl (153 kB)
+Installing collected packages: certifi, httpcore, httpx
+
+Successfully installed certifi-2026.2.25 httpcore-1.0.9 httpx-0.28.1
+
+[notice] A new release of pip is available: 25.3 -> 26.0.1
+[notice] To update, run: C:\Users\user\OneDrive\Claude\testops\backend\.venv\Scripts\python.exe -m pip install --upgrade pip

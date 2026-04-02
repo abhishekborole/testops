@@ -4,7 +4,7 @@ import { VM } from '../data/constants.js';
 import { calcStats, timeAgo } from '../utils/helpers.js';
 
 export default function History() {
-  const { runs, activeId, setActiveId, setView, comparing, toggleCompare } = useStore();
+  const { runs, activeId, setActiveId, setView, comparing, toggleCompare, rerun } = useStore();
 
   const [envFilter, setEnvFilter] = useState('all');
   const [verdictFilter, setVerdictFilter] = useState('all');
@@ -190,6 +190,13 @@ export default function History() {
                     onClick={() => handleRunClick(run)}
                   >
                     👁 View
+                  </button>
+                  <button
+                    className="btn btn-sm btn-primary"
+                    onClick={() => rerun(run)}
+                    title="Re-run with same config"
+                  >
+                    ↺ Rerun
                   </button>
                   <button
                     className={`compare-toggle-btn ${isComparing ? 'selected' : ''}`}

@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import useStore from '../store/useStore.js';
 
 export default function TopBar() {
-  const { isDark, toggleTheme, apiKey, setApiKey, runs } = useStore();
-  const [showKey, setShowKey] = useState(false);
+  const { isDark, toggleTheme, runs } = useStore();
 
   const activeRuns = runs.filter(r => r.status === 'running');
   const agentCount = activeRuns.length > 0 ? 3 : 0;
@@ -19,24 +18,6 @@ export default function TopBar() {
       </div>
 
       <div className="topbar-right">
-        <div className="api-key-wrap">
-          <span style={{ fontSize: 11, color: 'var(--text3)' }}>🔑</span>
-          <input
-            className="api-key-input"
-            type={showKey ? 'text' : 'password'}
-            placeholder="sk-ant-api..."
-            value={apiKey}
-            onChange={e => setApiKey(e.target.value)}
-            title="Anthropic API Key"
-          />
-          <button
-            style={{ padding: '4px 6px', fontSize: 11, borderRadius: 4, border: 'none', cursor: 'pointer', background: 'transparent', color: 'var(--text3)' }}
-            onClick={() => setShowKey(v => !v)}
-          >
-            {showKey ? '🙈' : '👁'}
-          </button>
-        </div>
-
         {activeRuns.length > 0 && (
           <div className="running-badge">
             <div className="pulse-dot" />

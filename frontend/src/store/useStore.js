@@ -12,8 +12,8 @@ const useStore = create((set, get) => ({
   chatHist: {},
   agentEvents: {},
   isDark: false,
-  apiKey: '',
   currentView: 'dashboard',
+  pendingRerun: null, // { location, cluster, env, scopeIds }
 
   // Reference data — populated from DB only, never from local constants
   locsMap: {},
@@ -24,10 +24,17 @@ const useStore = create((set, get) => ({
   // Actions
   setView: (view) => set({ currentView: view }),
 
-  setApiKey: (key) => {
-    window.__testops_api_key = key;
-    set({ apiKey: key });
-  },
+  rerun: (run) => set({
+    pendingRerun: {
+      location: run.location,
+      cluster: run.cluster,
+      env: run.env,
+      scopeIds: run.categories?.map(c => c.id) ?? [],
+    },
+    currentView: 'execute',
+  }),
+
+  clearPendingRerun: () => set({ pendingRerun: null }),
 
   loadRefData: async () => {
     try {

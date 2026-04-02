@@ -10,6 +10,10 @@ class Settings(BaseSettings):
     APP_ENV: str = "development"
     LOG_LEVEL: str = "INFO"
     CORS_ORIGINS: str = "http://localhost:5173,http://localhost:3000"
+    AI_API_KEY: str = ""
+    KAFKA_BROKER: str = "localhost:9092"
+    KAFKA_TOPIC: str = "testops-topic"
+    KAFKA_GROUP_ID: str = "testops-monitor"
 
     @property
     def cors_origins_list(self) -> List[str]:
