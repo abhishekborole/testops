@@ -1,21 +1,31 @@
-# Dependencies
-node_modules/
-.pnp
-.pnp.js
+# ── Frontend ──────────────────────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/.vite/
+frontend/vite.config.js.timestamp-*
+frontend/.pnp
+frontend/.pnp.js
 
-# Build output
-dist/
-dist-ssr/
-build/
+# ── Backend ───────────────────────────────────────────────
+backend/.env
+backend/__pycache__/
+backend/**/__pycache__/
+backend/**/*.pyc
+backend/**/*.pyo
+backend/.venv/
+backend/venv/
+backend/*.egg-info/
+backend/alembic/versions/*.py
 
-# Environment variables
+# ── Environment variables (root-level) ────────────────────
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# Logs
+# ── Logs ──────────────────────────────────────────────────
 logs/
 *.log
 npm-debug.log*
@@ -23,31 +33,24 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Editor directories and files
+# ── Editor ────────────────────────────────────────────────
 .vscode/*
 !.vscode/extensions.json
 .idea/
+
+# ── OS ────────────────────────────────────────────────────
 .DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Misc ──────────────────────────────────────────────────
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-Thumbs.db
-
-# Vite cache
-.vite/
-vite.config.js.timestamp-*
-
-# TypeScript
 *.tsbuildinfo
-
-# Testing
 coverage/
 
-# Claude Code (local permissions/settings — machine-specific)
+# ── Claude Code (machine-specific) ────────────────────────
 .claude/
-
-# OS
-.DS_Store
-desktop.ini

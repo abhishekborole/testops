@@ -1,0 +1,10 @@
+.env
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+dist/
+*.egg-info/
+# alembic/versions/*.py  ← do NOT ignore; migration files should be committed

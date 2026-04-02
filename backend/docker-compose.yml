@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  api:
+    build: .
+    container_name: testops-api
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://testops-user:testops!2026@db:5432/testops-db
+      - SECRET_KEY=${SECRET_KEY:-change-me-in-production}
+      - ALGORITHM=HS256
+      - ACCESS_TOKEN_EXPIRE_MINUTES=30
+      - APP_ENV=production
+      - LOG_LEVEL=INFO
+      - CORS_ORIGINS=http://localhost:5173,http://localhost:3000
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    container_name: testops-db
+    environment:
+      POSTGRES_USER: testops-user
+      POSTGRES_PASSWORD: testops!2026
+      POSTGRES_DB: testops-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U testops-user -d testops-db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  pgdata:
