@@ -1,7 +1,7 @@
 # TestOPS Kafka Producer
 # Publishes test results to testops-topic for a given Run ID
 
-$RunId = "PRT-MJWLP-783"
+$RunId = "PRT-SCDFV-874"
 $FailCount = 2
 
 
