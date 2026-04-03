@@ -1,15 +1,86 @@
-import React, { useRef, useEffect, useState } from 'react';
-import {
-  Chart as ChartJS,
-  CategoryScale, LinearScale, PointElement, LineElement,
-  ArcElement, Tooltip, Legend, Filler
-} from 'chart.js';
-import { Line, Doughnut } from 'react-chartjs-2';
+import React, { useState } from 'react';
 import useStore from '../store/useStore.js';
 import { VM } from '../data/constants.js';
 import { calcStats, timeAgo, getVerdictInfo } from '../utils/helpers.js';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, ArcElement, Tooltip, Legend, Filler);
+// ── SVG Line Chart ────────────────────────────────────────────────────────────
+function SvgLine({ data, labels }) {
+  const W = 400, H = 140, PAD = 28;
+  const points = data.length < 2 ? [...data, ...Array(2 - data.length).fill(0)] : data;
+  const min = 0, max = 100;
+  const xs = points.map((_, i) => PAD + (i / (points.length - 1)) * (W - PAD * 2));
+  const ys = points.map(v => H - PAD - ((v - min) / (max - min)) * (H - PAD * 2));
+  const poly = xs.map((x, i) => `${x},${ys[i]}`).join(' ');
+  const area = `${xs[0]},${H - PAD} ` + poly + ` ${xs[xs.length - 1]},${H - PAD}`;
+  const color = '#DB0011';
+
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: '100%' }}>
+      {/* Y gridlines */}
+      {[0, 25, 50, 75, 100].map(v => {
+        const y = H - PAD - (v / 100) * (H - PAD * 2);
+        return (
+          <g key={v}>
+            <line x1={PAD} x2={W - PAD} y1={y} y2={y} stroke="rgba(0,0,0,0.07)" strokeWidth="1" />
+            <text x={PAD - 4} y={y + 4} fontSize="9" fill="#94a3b8" textAnchor="end">{v}</text>
+          </g>
+        );
+      })}
+      {/* Fill */}
+      <polygon points={area} fill={color} fillOpacity="0.08" />
+      {/* Line */}
+      <polyline points={poly} fill="none" stroke={color} strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
+      {/* Points + labels */}
+      {xs.map((x, i) => (
+        <g key={i}>
+          <circle cx={x} cy={ys[i]} r="4" fill={color} />
+          <text x={x} y={H - 6} fontSize="9" fill="#94a3b8" textAnchor="middle">
+            {labels[i] || ''}
+          </text>
+          <title>{labels[i]}: {points[i]}%</title>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+// ── SVG Donut Chart ───────────────────────────────────────────────────────────
+function SvgDonut({ passed, failed, pending }) {
+  const total = passed + failed + pending || 1;
+  const R = 52, r = 34, cx = 70, cy = 70;
+  const segments = [
+    { value: passed, color: '#22c55e', label: 'Passed' },
+    { value: failed, color: '#ef4444', label: 'Failed' },
+    { value: pending, color: '#94a3b8', label: 'Pending' },
+  ].filter(s => s.value > 0);
+
+  let startAngle = -Math.PI / 2;
+  const arcs = segments.map(seg => {
+    const angle = (seg.value / total) * 2 * Math.PI;
+    const x1 = cx + R * Math.cos(startAngle);
+    const y1 = cy + R * Math.sin(startAngle);
+    startAngle += angle;
+    const x2 = cx + R * Math.cos(startAngle);
+    const y2 = cy + R * Math.sin(startAngle);
+    const ix1 = cx + r * Math.cos(startAngle - angle);
+    const iy1 = cy + r * Math.sin(startAngle - angle);
+    const ix2 = cx + r * Math.cos(startAngle);
+    const iy2 = cy + r * Math.sin(startAngle);
+    const large = angle > Math.PI ? 1 : 0;
+    return {
+      ...seg,
+      d: `M ${x1} ${y1} A ${R} ${R} 0 ${large} 1 ${x2} ${y2} L ${ix2} ${iy2} A ${r} ${r} 0 ${large} 0 ${ix1} ${iy1} Z`
+    };
+  });
+
+  return (
+    <svg viewBox="0 0 140 140" style={{ width: 140, height: 140 }}>
+      {arcs.map((a, i) => <path key={i} d={a.d} fill={a.color}><title>{a.label}: {a.value}</title></path>)}
+      <text x={cx} y={cy - 4} textAnchor="middle" fontSize="14" fontWeight="800" fill="var(--text)">{Math.round((passed / total) * 100)}%</text>
+      <text x={cx} y={cy + 12} textAnchor="middle" fontSize="9" fill="#94a3b8">pass rate</text>
+    </svg>
+  );
+}
 
 function KpiCard({ label, value, sub, icon, color }) {
   return (
@@ -91,31 +162,7 @@ export default function Dashboard() {
   const trendLabels = trendRuns.map(r => r.id.split('-')[2] || r.id.slice(-5));
   const trendData = trendRuns.map(r => r.overallRate || 0);
 
-  const lineData = {
-    labels: trendLabels.length > 0 ? trendLabels : ['Run 1', 'Run 2', 'Run 3'],
-    datasets: [{
-      label: 'Pass Rate %',
-      data: trendData.length > 0 ? trendData : [0, 0, 0],
-      borderColor: '#DB0011',
-      backgroundColor: 'rgba(219,0,17,0.08)',
-      fill: true,
-      tension: 0.4,
-      pointRadius: 4,
-      pointBackgroundColor: '#DB0011'
-    }]
-  };
-
-  const lineOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
-    scales: {
-      y: { min: 0, max: 100, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#64748b' } },
-      x: { grid: { display: false }, ticks: { color: '#64748b' } }
-    }
-  };
-
-  // Donut chart for latest run
+  // Donut data for latest run
   const latestStats = latest?.categories ? (() => {
     let passed = 0, failed = 0, pending = 0;
     latest.categories.forEach(c => {
@@ -127,23 +174,6 @@ export default function Dashboard() {
     });
     return { passed, failed, pending };
   })() : { passed: 0, failed: 0, pending: 0 };
-
-  const donutData = {
-    labels: ['Passed', 'Failed', 'Pending'],
-    datasets: [{
-      data: [latestStats.passed, latestStats.failed, latestStats.pending],
-      backgroundColor: ['#22c55e', '#ef4444', '#94a3b8'],
-      borderWidth: 0,
-      hoverOffset: 4
-    }]
-  };
-
-  const donutOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
-    cutout: '65%'
-  };
 
   // Category stats from latest run
   const catStats = {};
@@ -195,7 +225,7 @@ export default function Dashboard() {
           </div>
           <div className="card-body">
             <div style={{ height: 180 }}>
-              <Line data={lineData} options={lineOptions} />
+              <SvgLine data={trendData} labels={trendLabels} />
             </div>
           </div>
         </div>
@@ -276,8 +306,8 @@ export default function Dashboard() {
           <div className="card-body">
             {latest ? (
               <>
-                <div style={{ height: 160 }}>
-                  <Doughnut data={donutData} options={donutOptions} />
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <SvgDonut passed={latestStats.passed} failed={latestStats.failed} pending={latestStats.pending} />
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: 12 }}>
                   <div style={{ textAlign: 'center' }}>
