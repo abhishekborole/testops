@@ -179,11 +179,7 @@ export default function Monitor() {
           </div>
           <div className="meta-item">
             <div className="meta-label">Cluster</div>
-            <div className="meta-value font-mono" style={{ fontSize: 11 }}>{run.cluster}</div>
-          </div>
-          <div className="meta-item">
-            <div className="meta-label">Started</div>
-            <div className="meta-value" style={{ fontSize: 12 }}>{timeAgo(run.startedAt)}</div>
+            <div className="meta-value font-mono" style={{ fontSize: 14 }}>{run.cluster}</div>
           </div>
         </div>
 
@@ -325,8 +321,8 @@ export default function Monitor() {
       </div>
 
       {/* Agent Feed Sidebar */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <div className="card" style={{ position: 'sticky', top: 80 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignSelf: 'start' }}>
+        <div className="card">
           <div className="card-header">
             <div className="card-title">🤖 Agent Feed</div>
             <span className="badge badge-purple">{events.length} events</span>

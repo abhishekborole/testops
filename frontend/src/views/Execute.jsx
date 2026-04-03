@@ -116,6 +116,34 @@ function kafkaMonitor(runId, store) {
           }
         }
       }
+
+      // ── auto-complete: if every test is now passed/failed, finalise ────────
+      const currentRun = useStore.getState().runs.find(r => r.id === runId);
+      if (currentRun) {
+        const allTests = currentRun.categories.flatMap(c => c.tests);
+        const done = allTests.every(t => t.status === 'passed' || t.status === 'failed');
+        if (done && currentRun.status === 'running') {
+          const passed = allTests.filter(t => t.status === 'passed').length;
+          const rate = allTests.length > 0 ? Math.round((passed / allTests.length) * 100) : 0;
+          const verdict = rate >= 95 ? 'ready' : rate >= 75 ? 'at-risk' : 'not-ready';
+          const finalStatus = rate < 60 ? 'failed' : 'completed';
+          const completedAt = new Date().toISOString();
+          updateRun(runId, { status: finalStatus, overallRate: rate, verdict, completedAt });
+          pushEvent(runId, {
+            type: rate >= 95 ? 'success' : rate >= 75 ? 'warn' : 'error',
+            title: '🤖 Monitor Agent',
+            body: `All tests complete — ${rate}% pass rate (${verdict.replace('-', ' ')})`,
+            time: now,
+          });
+          const finalCategories = useStore.getState().runs.find(r => r.id === runId)?.categories;
+          runsApi.update(runId, {
+            status: finalStatus, overall_rate: rate, verdict,
+            categories: finalCategories, completed_at: completedAt,
+          }).catch(err => console.warn('Failed to persist run to DB:', err));
+          activeStreams.delete(runId);
+          es.close();
+        }
+      }
     }
 
     // ── run_completed ────────────────────────────────────────────────────────
