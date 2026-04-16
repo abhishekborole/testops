@@ -1,5 +1,13 @@
+import os
+from pathlib import Path
+
 from pydantic_settings import BaseSettings
 from typing import List
+
+# Default path: <repo-root>/report/testcases.json
+_DEFAULT_JSON = str(
+    Path(__file__).resolve().parent.parent.parent.parent / "report" / "testcases.json"
+)
 
 
 class Settings(BaseSettings):
@@ -14,6 +22,7 @@ class Settings(BaseSettings):
     KAFKA_BROKER: str = "localhost:9092"
     KAFKA_TOPIC: str = "testops-topic"
     KAFKA_GROUP_ID: str = "testops-monitor"
+    TESTCASES_JSON_PATH: str = _DEFAULT_JSON
 
     @property
     def cors_origins_list(self) -> List[str]:
