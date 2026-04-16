@@ -1,0 +1,1014 @@
+{
+  "metadata": {
+    "executed_by": "",
+    "run_id": "",
+    "cluster_name": "",
+    "environment": "",
+    "execution_date": "2026-04-16",
+    "remarks": ""
+  },
+  "categories": [
+    {
+      "category": "Cluster Health & Core Services",
+      "created_date": "2026-04-16",
+      "test_cases": [
+        {
+          "id": "TC-001",
+          "test_case": "Validate ManagedCluster joined/available/hubAccepted value",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-002",
+          "test_case": "Validate MultiClusterHub Running in ACM",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-003",
+          "test_case": "Verify MultiClusterHub resource absent on managed cluster",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-004",
+          "test_case": "Validate Cluster API & Authentication (ACM and Managed Cluster)",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-005",
+          "test_case": "Validate Web Console accessibility (ACM and Managed Cluster)",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-006",
+          "test_case": "Validate Cluster Operators in Available state (ACM and Managed Cluster)",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-007",
+          "test_case": "Validate MachineConfigPools Available (ACM and Managed Cluster)",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-008",
+          "test_case": "Validate All nodes Ready (ACM and Managed Cluster)",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-009",
+          "test_case": "Create PVC & Validate bind to default storage class (ACM and Managed Cluster)",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-010",
+          "test_case": "Validate ArgoCD Console accessibility (ACM and Managed Cluster)",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-011",
+          "test_case": "Validate Platform namespaces present (ACM and Managed Cluster)",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-012",
+          "test_case": "Validate Mandatory pods & deployments running (ACM and Managed Cluster)",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-013",
+          "test_case": "Validate mandatory operators using CSVs (ACM and Managed Cluster)",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        }
+      ]
+    },
+    {
+      "category": "Networking",
+      "created_date": "2026-04-16",
+      "test_cases": [
+        {
+          "id": "TC-014",
+          "test_case": "Validate VM-to-VM Connectivity",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-015",
+          "test_case": "Validate VM-to-External Connectivity",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-016",
+          "test_case": "Validate Intra-Cluster DNS Resolution",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-017",
+          "test_case": "Validate DNS Resolution on VM",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-018",
+          "test_case": "Validate Network Policy Enforcement",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-019",
+          "test_case": "Validate UserDefinedNetwork Existence for Source VLANs",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-020",
+          "test_case": "Validate Egress and Ingress Traffic Rules",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-021",
+          "test_case": "Network Bonds/Bridges Presence",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-022",
+          "test_case": "Validate NTP/DNS settings on the Node",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-023",
+          "test_case": "Validate Services configuration",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-024",
+          "test_case": "Validate Routes configuration",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-025",
+          "test_case": "Validate Network Policies configuration",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-026",
+          "test_case": "Validate NodeNetworkConfigurationPolicy",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        }
+      ]
+    },
+    {
+      "category": "Storage",
+      "created_date": "2026-04-16",
+      "test_cases": [
+        {
+          "id": "TC-027",
+          "test_case": "Validate Required StorageClasses Exist",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-028",
+          "test_case": "Validate Default StorageClass",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-029",
+          "test_case": "Validate Dynamic Provisioning of Persistent Volumes",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-030",
+          "test_case": "Validate StorageClass Parameters",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-031",
+          "test_case": "Validate PVC Deletion and PV Reclaim",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-032",
+          "test_case": "Validate PVC RWO Access Mode and Reclaim Policies",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-033",
+          "test_case": "Validate PVC RWX Access Mode and Reclaim Policies",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        }
+      ]
+    },
+    {
+      "category": "VM Operations",
+      "created_date": "2026-04-16",
+      "test_cases": [
+        {
+          "id": "TC-034",
+          "test_case": "Create Multiple VMs Simultaneously",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-035",
+          "test_case": "Start VM",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-036",
+          "test_case": "Stop VM",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-037",
+          "test_case": "Restart VM",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-038",
+          "test_case": "Delete VM",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-039",
+          "test_case": "Create VM Snapshot",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-040",
+          "test_case": "Restore VM from Snapshot",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-041",
+          "test_case": "Delete VM Snapshot",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-042",
+          "test_case": "Validate VM Console Access",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-043",
+          "test_case": "Validate Cold Add Disk",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-044",
+          "test_case": "Validate Hot Add Disk",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-045",
+          "test_case": "Validate Remove Disk",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-046",
+          "test_case": "Validate VM CPU Resize",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-047",
+          "test_case": "Validate VM Memory Resize",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-048",
+          "test_case": "Validate Node Affinity for VM",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-049",
+          "test_case": "Validate Pod Affinity for VM",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-050",
+          "test_case": "Validate Pod Anti-Affinity for VM",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-051",
+          "test_case": "Validate Add Node Label",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-052",
+          "test_case": "Validate Remove Node Label",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-053",
+          "test_case": "In-Cluster Live Migration Between Nodes",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-054",
+          "test_case": "In-Cluster Live Migration Between Storage",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        }
+      ]
+    },
+    {
+      "category": "Migrations",
+      "created_date": "2026-04-16",
+      "test_cases": [
+        {
+          "id": "TC-055",
+          "test_case": "Migration from VMware to OpenShift – Test Storage Offloading (Cold Migration)",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-056",
+          "test_case": "Migration from VMware to OpenShift – Test Warm Migration",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-057",
+          "test_case": "Migration from VMware to OpenShift – Test Cold Migration (Direct)",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-058",
+          "test_case": "Network and Storage Mappings for Migration from VMware to OpenShift",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-059",
+          "test_case": "Validate Migration Performance and Downtime",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-060",
+          "test_case": "Validate VMware providers",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        }
+      ]
+    },
+    {
+      "category": "Integration",
+      "created_date": "2026-04-16",
+      "test_cases": [
+        {
+          "id": "TC-061",
+          "test_case": "AAP",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-062",
+          "test_case": "BHOM",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-063",
+          "test_case": "BHOM",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-064",
+          "test_case": "BHOM",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-065",
+          "test_case": "ServiceNow",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-066",
+          "test_case": "EDA",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-067",
+          "test_case": "EntraID",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-068",
+          "test_case": "ODS",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-069",
+          "test_case": "Unicorn",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        }
+      ]
+    },
+    {
+      "category": "Backup & Restore",
+      "created_date": "2026-04-16",
+      "test_cases": [
+        {
+          "id": "TC-070",
+          "test_case": "Cluster Backup Status in CommVault",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        }
+      ]
+    },
+    {
+      "category": "Compliance & Policy",
+      "created_date": "2026-04-16",
+      "test_cases": [
+        {
+          "id": "TC-071",
+          "test_case": "Compliance Operator Health",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-072",
+          "test_case": "Verify Compliance Result and violation",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-073",
+          "test_case": "Validate Cluster Version, Patch Level, CSI version, MTV and CNV version",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        }
+      ]
+    },
+    {
+      "category": "Monitoring & Logging",
+      "created_date": "2026-04-16",
+      "test_cases": [
+        {
+          "id": "TC-074",
+          "test_case": "Validate Prometheus Operational Status",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-075",
+          "test_case": "Validate Alertmanager Operational Status",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-076",
+          "test_case": "Validate Logging Stack Collection",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-077",
+          "test_case": "Validate Alert Notification Delivery",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-078",
+          "test_case": "Validate Alert Suppression",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-079",
+          "test_case": "Validate Ensure none of the events triggered for VM's",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-080",
+          "test_case": "Validate Namespace and Cluster events pushed to observability Platform",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-081",
+          "test_case": "Authentication & Audit logs are captured for security purpose",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        }
+      ]
+    },
+    {
+      "category": "Security & Access",
+      "created_date": "2026-04-16",
+      "test_cases": [
+        {
+          "id": "TC-082",
+          "test_case": "JIT: Zero-standing privilege (pre-approval)",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-083",
+          "test_case": "JIT: Approval grants temporary elevation",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-084",
+          "test_case": "JIT: TTL expiry revokes access",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-085",
+          "test_case": "MFA: Privileged access requires MFA",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-086",
+          "test_case": "RBAC: Privileged bindings constrained",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-087",
+          "test_case": "VM console access: default deny",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-088",
+          "test_case": "VM memory dump: restricted and monitored",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-089",
+          "test_case": "Admission baseline: VAP enabled and effective",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-090",
+          "test_case": "Governance labels: mandatory labels enforced/audited",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-091",
+          "test_case": "Non-HIC guardrail: VM cannot use pod network interface",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-092",
+          "test_case": "HIC segmentation: default deny between namespaces",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-093",
+          "test_case": "Network observability works",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-094",
+          "test_case": "Cross-cluster access: disallowed paths blocked",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-095",
+          "test_case": "Egress governance: required vendor access only",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-096",
+          "test_case": "SIEM coverage: security events arrive and are searchable",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-097",
+          "test_case": "Telemetry resilience: detect log pipeline failure",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-098",
+          "test_case": "Storage security: CSI privileges/secrets containment",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-099",
+          "test_case": "Backup resilience: immutable restore drill",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-100",
+          "test_case": "Patch governance: standard + evidence",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-101",
+          "test_case": "Supply chain: SBOM/CVE scanning gates evidenced",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-102",
+          "test_case": "Compliance Operator produce “Pass” report (or controlled exceptions)",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        }
+      ]
+    },
+    {
+      "category": "Hardware",
+      "created_date": "2026-04-16",
+      "test_cases": [
+        {
+          "id": "TC-103",
+          "test_case": "BIOS Firmware Version",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-104",
+          "test_case": "Physical Security",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-105",
+          "test_case": "Hardware Health Monitoring",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-106",
+          "test_case": "Redundant Power Supplies",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-107",
+          "test_case": "Memory Consistency",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-108",
+          "test_case": "CPU Socket Consistency",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-109",
+          "test_case": "CPU Core Consistency",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-110",
+          "test_case": "CPU Family Consistency",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-111",
+          "test_case": "Network Adapter Consistency",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-112",
+          "test_case": "Network Adapter Connectivity",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-113",
+          "test_case": "HBA Adapter Connectivity",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-114",
+          "test_case": "Multipathing Availability",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-115",
+          "test_case": "Check TPM Presence",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-116",
+          "test_case": "Enable Hyper-Threading",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-117",
+          "test_case": "Enable VT (Virtualization)",
+          "status": "Not Started",
+          "failure_details": "",
+          "evidence": [],
+          "created_date": "2026-04-16"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1337 @@
+{
+  "metadata": {
+    "executed_by": "Abhishek Borole",
+    "run_id": "RUN-6516",
+    "cluster_name": "prod-cluster-01",
+    "environment": "prod",
+    "execution_date": "2026-04-16",
+    "remarks": "Automated execution with simulated evidence outputs"
+  },
+  "categories": [
+    {
+      "category": "Cluster Health & Core Services",
+      "created_date": "2026-04-16",
+      "test_cases": [
+        {
+          "id": "TC-001",
+          "test_case": "Validate ManagedCluster joined/available/hubAccepted value",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"Validate ManagedCluster joined/available/hubAccepted value executed\"}",
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-002",
+          "test_case": "Validate MultiClusterHub Running in ACM",
+          "status": "Failed",
+          "failure_details": "Permission denied error",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3",
+            "Error: connection timeout after 30s"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-003",
+          "test_case": "Verify MultiClusterHub resource absent on managed cluster",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3",
+            "API Response:\n{\"status\":\"success\",\"message\":\"Verify MultiClusterHub resource absent on managed cluster executed\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-004",
+          "test_case": "Validate Cluster API & Authentication (ACM and Managed Cluster)",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3",
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-005",
+          "test_case": "Validate Web Console accessibility (ACM and Managed Cluster)",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}",
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-006",
+          "test_case": "Validate Cluster Operators in Available state (ACM and Managed Cluster)",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-007",
+          "test_case": "Validate MachineConfigPools Available (ACM and Managed Cluster)",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m",
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-008",
+          "test_case": "Validate All nodes Ready (ACM and Managed Cluster)",
+          "status": "Failed",
+          "failure_details": "Validation mismatch in expected output",
+          "evidence": [
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m",
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}",
+            "Error: connection timeout after 30s"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-009",
+          "test_case": "Create PVC & Validate bind to default storage class (ACM and Managed Cluster)",
+          "status": "Failed",
+          "failure_details": "Permission denied error",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"Create PVC & Validate bind to default storage class (ACM and Managed Cluster) executed\"}",
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms",
+            "Error: connection timeout after 30s"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-010",
+          "test_case": "Validate ArgoCD Console accessibility (ACM and Managed Cluster)",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"Validate ArgoCD Console accessibility (ACM and Managed Cluster) executed\"}",
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-011",
+          "test_case": "Validate Platform namespaces present (ACM and Managed Cluster)",
+          "status": "In Progress",
+          "failure_details": "",
+          "evidence": [
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-012",
+          "test_case": "Validate Mandatory pods & deployments running (ACM and Managed Cluster)",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}",
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-013",
+          "test_case": "Validate mandatory operators using CSVs (ACM and Managed Cluster)",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"Validate mandatory operators using CSVs (ACM and Managed Cluster) executed\"}",
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m"
+          ],
+          "created_date": "2026-04-16"
+        }
+      ]
+    },
+    {
+      "category": "Networking",
+      "created_date": "2026-04-16",
+      "test_cases": [
+        {
+          "id": "TC-014",
+          "test_case": "Validate VM-to-VM Connectivity",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-015",
+          "test_case": "Validate VM-to-External Connectivity",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-016",
+          "test_case": "Validate Intra-Cluster DNS Resolution",
+          "status": "In Progress",
+          "failure_details": "",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-017",
+          "test_case": "Validate DNS Resolution on VM",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"Validate DNS Resolution on VM executed\"}",
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-018",
+          "test_case": "Validate Network Policy Enforcement",
+          "status": "Blocked",
+          "failure_details": "",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"Validate Network Policy Enforcement executed\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-019",
+          "test_case": "Validate UserDefinedNetwork Existence for Source VLANs",
+          "status": "Failed",
+          "failure_details": "Timeout while connecting to service",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms",
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}",
+            "Error: connection timeout after 30s"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-020",
+          "test_case": "Validate Egress and Ingress Traffic Rules",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"Validate Egress and Ingress Traffic Rules executed\"}",
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-021",
+          "test_case": "Network Bonds/Bridges Presence",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}",
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-022",
+          "test_case": "Validate NTP/DNS settings on the Node",
+          "status": "Failed",
+          "failure_details": "Validation mismatch in expected output",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"Validate NTP/DNS settings on the Node executed\"}",
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3",
+            "Error: connection timeout after 30s"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-023",
+          "test_case": "Validate Services configuration",
+          "status": "In Progress",
+          "failure_details": "",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms",
+            "API Response:\n{\"status\":\"success\",\"message\":\"Validate Services configuration executed\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-024",
+          "test_case": "Validate Routes configuration",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-025",
+          "test_case": "Validate Network Policies configuration",
+          "status": "Blocked",
+          "failure_details": "",
+          "evidence": [
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}",
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-026",
+          "test_case": "Validate NodeNetworkConfigurationPolicy",
+          "status": "Blocked",
+          "failure_details": "",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3",
+            "API Response:\n{\"status\":\"success\",\"message\":\"Validate NodeNetworkConfigurationPolicy executed\"}"
+          ],
+          "created_date": "2026-04-16"
+        }
+      ]
+    },
+    {
+      "category": "Storage",
+      "created_date": "2026-04-16",
+      "test_cases": [
+        {
+          "id": "TC-027",
+          "test_case": "Validate Required StorageClasses Exist",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-028",
+          "test_case": "Validate Default StorageClass",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m",
+            "API Response:\n{\"status\":\"success\",\"message\":\"Validate Default StorageClass executed\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-029",
+          "test_case": "Validate Dynamic Provisioning of Persistent Volumes",
+          "status": "Blocked",
+          "failure_details": "",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-030",
+          "test_case": "Validate StorageClass Parameters",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-031",
+          "test_case": "Validate PVC Deletion and PV Reclaim",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms",
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-032",
+          "test_case": "Validate PVC RWO Access Mode and Reclaim Policies",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-033",
+          "test_case": "Validate PVC RWX Access Mode and Reclaim Policies",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        }
+      ]
+    },
+    {
+      "category": "VM Operations",
+      "created_date": "2026-04-16",
+      "test_cases": [
+        {
+          "id": "TC-034",
+          "test_case": "Create Multiple VMs Simultaneously",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"Create Multiple VMs Simultaneously executed\"}",
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-035",
+          "test_case": "Start VM",
+          "status": "Blocked",
+          "failure_details": "",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3",
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-036",
+          "test_case": "Stop VM",
+          "status": "In Progress",
+          "failure_details": "",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-037",
+          "test_case": "Restart VM",
+          "status": "Failed",
+          "failure_details": "Permission denied error",
+          "evidence": [
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m",
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3",
+            "Error: connection timeout after 30s"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-038",
+          "test_case": "Delete VM",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-039",
+          "test_case": "Create VM Snapshot",
+          "status": "Blocked",
+          "failure_details": "",
+          "evidence": [
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-040",
+          "test_case": "Restore VM from Snapshot",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms",
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-041",
+          "test_case": "Delete VM Snapshot",
+          "status": "In Progress",
+          "failure_details": "",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-042",
+          "test_case": "Validate VM Console Access",
+          "status": "Failed",
+          "failure_details": "Timeout while connecting to service",
+          "evidence": [
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m",
+            "Error: connection timeout after 30s"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-043",
+          "test_case": "Validate Cold Add Disk",
+          "status": "Failed",
+          "failure_details": "Resource not found",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3",
+            "Error: connection timeout after 30s"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-044",
+          "test_case": "Validate Hot Add Disk",
+          "status": "Failed",
+          "failure_details": "Resource not found",
+          "evidence": [
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m",
+            "API Response:\n{\"status\":\"success\",\"message\":\"Validate Hot Add Disk executed\"}",
+            "Error: connection timeout after 30s"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-045",
+          "test_case": "Validate Remove Disk",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}",
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-046",
+          "test_case": "Validate VM CPU Resize",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"Validate VM CPU Resize executed\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-047",
+          "test_case": "Validate VM Memory Resize",
+          "status": "Failed",
+          "failure_details": "Resource not found",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3",
+            "Error: connection timeout after 30s"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-048",
+          "test_case": "Validate Node Affinity for VM",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}",
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-049",
+          "test_case": "Validate Pod Affinity for VM",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3",
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-050",
+          "test_case": "Validate Pod Anti-Affinity for VM",
+          "status": "Blocked",
+          "failure_details": "",
+          "evidence": [
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}",
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-051",
+          "test_case": "Validate Add Node Label",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m",
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-052",
+          "test_case": "Validate Remove Node Label",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms",
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-053",
+          "test_case": "In-Cluster Live Migration Between Nodes",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}",
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-054",
+          "test_case": "In-Cluster Live Migration Between Storage",
+          "status": "Failed",
+          "failure_details": "Permission denied error",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms",
+            "Error: connection timeout after 30s"
+          ],
+          "created_date": "2026-04-16"
+        }
+      ]
+    },
+    {
+      "category": "Migrations",
+      "created_date": "2026-04-16",
+      "test_cases": [
+        {
+          "id": "TC-055",
+          "test_case": "Migration from VMware to OpenShift – Test Storage Offloading (Cold Migration)",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-056",
+          "test_case": "Migration from VMware to OpenShift – Test Warm Migration",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-057",
+          "test_case": "Migration from VMware to OpenShift – Test Cold Migration (Direct)",
+          "status": "Failed",
+          "failure_details": "Permission denied error",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"Migration from VMware to OpenShift – Test Cold Migration (Direct) executed\"}",
+            "Error: connection timeout after 30s"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-058",
+          "test_case": "Network and Storage Mappings for Migration from VMware to OpenShift",
+          "status": "Blocked",
+          "failure_details": "",
+          "evidence": [
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-059",
+          "test_case": "Validate Migration Performance and Downtime",
+          "status": "Failed",
+          "failure_details": "Resource not found",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3",
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}",
+            "Error: connection timeout after 30s"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-060",
+          "test_case": "Validate VMware providers",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m",
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        }
+      ]
+    },
+    {
+      "category": "Integration",
+      "created_date": "2026-04-16",
+      "test_cases": [
+        {
+          "id": "TC-061",
+          "test_case": "AAP",
+          "status": "Failed",
+          "failure_details": "Timeout while connecting to service",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"AAP executed\"}",
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}",
+            "Error: connection timeout after 30s"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-062",
+          "test_case": "BHOM",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-063",
+          "test_case": "BHOM",
+          "status": "Failed",
+          "failure_details": "Permission denied error",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3",
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms",
+            "Error: connection timeout after 30s"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-064",
+          "test_case": "BHOM",
+          "status": "In Progress",
+          "failure_details": "",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"BHOM executed\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-065",
+          "test_case": "ServiceNow",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-066",
+          "test_case": "EDA",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3",
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-067",
+          "test_case": "EntraID",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3",
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-068",
+          "test_case": "ODS",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"ODS executed\"}",
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-069",
+          "test_case": "Unicorn",
+          "status": "Failed",
+          "failure_details": "Timeout while connecting to service",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"Unicorn executed\"}",
+            "Error: connection timeout after 30s"
+          ],
+          "created_date": "2026-04-16"
+        }
+      ]
+    },
+    {
+      "category": "Backup & Restore",
+      "created_date": "2026-04-16",
+      "test_cases": [
+        {
+          "id": "TC-070",
+          "test_case": "Cluster Backup Status in CommVault",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m",
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        }
+      ]
+    },
+    {
+      "category": "Compliance & Policy",
+      "created_date": "2026-04-16",
+      "test_cases": [
+        {
+          "id": "TC-071",
+          "test_case": "Compliance Operator Health",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"Compliance Operator Health executed\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-072",
+          "test_case": "Verify Compliance Result and violation",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}",
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-073",
+          "test_case": "Validate Cluster Version, Patch Level, CSI version, MTV and CNV version",
+          "status": "Blocked",
+          "failure_details": "",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        }
+      ]
+    },
+    {
+      "category": "Monitoring & Logging",
+      "created_date": "2026-04-16",
+      "test_cases": [
+        {
+          "id": "TC-074",
+          "test_case": "Validate Prometheus Operational Status",
+          "status": "Failed",
+          "failure_details": "Permission denied error",
+          "evidence": [
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}",
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms",
+            "Error: connection timeout after 30s"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-075",
+          "test_case": "Validate Alertmanager Operational Status",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-076",
+          "test_case": "Validate Logging Stack Collection",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"Validate Logging Stack Collection executed\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-077",
+          "test_case": "Validate Alert Notification Delivery",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"Validate Alert Notification Delivery executed\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-078",
+          "test_case": "Validate Alert Suppression",
+          "status": "Failed",
+          "failure_details": "Timeout while connecting to service",
+          "evidence": [
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}",
+            "API Response:\n{\"status\":\"success\",\"message\":\"Validate Alert Suppression executed\"}",
+            "Error: connection timeout after 30s"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-079",
+          "test_case": "Validate Ensure none of the events triggered for VM's",
+          "status": "Blocked",
+          "failure_details": "",
+          "evidence": [
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}",
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-080",
+          "test_case": "Validate Namespace and Cluster events pushed to observability Platform",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3",
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-081",
+          "test_case": "Authentication & Audit logs are captured for security purpose",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3",
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        }
+      ]
+    },
+    {
+      "category": "Security & Access",
+      "created_date": "2026-04-16",
+      "test_cases": [
+        {
+          "id": "TC-082",
+          "test_case": "JIT: Zero-standing privilege (pre-approval)",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms",
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-083",
+          "test_case": "JIT: Approval grants temporary elevation",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m",
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-084",
+          "test_case": "JIT: TTL expiry revokes access",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-085",
+          "test_case": "MFA: Privileged access requires MFA",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-086",
+          "test_case": "RBAC: Privileged bindings constrained",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"RBAC: Privileged bindings constrained executed\"}",
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-087",
+          "test_case": "VM console access: default deny",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3",
+            "API Response:\n{\"status\":\"success\",\"message\":\"VM console access: default deny executed\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-088",
+          "test_case": "VM memory dump: restricted and monitored",
+          "status": "Blocked",
+          "failure_details": "",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms",
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-089",
+          "test_case": "Admission baseline: VAP enabled and effective",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m",
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-090",
+          "test_case": "Governance labels: mandatory labels enforced/audited",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"Governance labels: mandatory labels enforced/audited executed\"}",
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-091",
+          "test_case": "Non-HIC guardrail: VM cannot use pod network interface",
+          "status": "In Progress",
+          "failure_details": "",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-092",
+          "test_case": "HIC segmentation: default deny between namespaces",
+          "status": "Failed",
+          "failure_details": "Resource not found",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms",
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}",
+            "Error: connection timeout after 30s"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-093",
+          "test_case": "Network observability works",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"Network observability works executed\"}",
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-094",
+          "test_case": "Cross-cluster access: disallowed paths blocked",
+          "status": "Failed",
+          "failure_details": "Timeout while connecting to service",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"Cross-cluster access: disallowed paths blocked executed\"}",
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m",
+            "Error: connection timeout after 30s"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-095",
+          "test_case": "Egress governance: required vendor access only",
+          "status": "In Progress",
+          "failure_details": "",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3",
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-096",
+          "test_case": "SIEM coverage: security events arrive and are searchable",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-097",
+          "test_case": "Telemetry resilience: detect log pipeline failure",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-098",
+          "test_case": "Storage security: CSI privileges/secrets containment",
+          "status": "Failed",
+          "failure_details": "Timeout while connecting to service",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3",
+            "Error: connection timeout after 30s"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-099",
+          "test_case": "Backup resilience: immutable restore drill",
+          "status": "Blocked",
+          "failure_details": "",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3",
+            "API Response:\n{\"status\":\"success\",\"message\":\"Backup resilience: immutable restore drill executed\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-100",
+          "test_case": "Patch governance: standard + evidence",
+          "status": "Blocked",
+          "failure_details": "",
+          "evidence": [
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}",
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-101",
+          "test_case": "Supply chain: SBOM/CVE scanning gates evidenced",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"Supply chain: SBOM/CVE scanning gates evidenced executed\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-102",
+          "test_case": "Compliance Operator produce “Pass” report (or controlled exceptions)",
+          "status": "Failed",
+          "failure_details": "Timeout while connecting to service",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms",
+            "API Response:\n{\"status\":\"success\",\"message\":\"Compliance Operator produce “Pass” report (or controlled exceptions) executed\"}",
+            "Error: connection timeout after 30s"
+          ],
+          "created_date": "2026-04-16"
+        }
+      ]
+    },
+    {
+      "category": "Hardware",
+      "created_date": "2026-04-16",
+      "test_cases": [
+        {
+          "id": "TC-103",
+          "test_case": "BIOS Firmware Version",
+          "status": "In Progress",
+          "failure_details": "",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-104",
+          "test_case": "Physical Security",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}",
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-105",
+          "test_case": "Hardware Health Monitoring",
+          "status": "In Progress",
+          "failure_details": "",
+          "evidence": [
+            "$ curl -k https://api.cluster.local/health\nHTTP/1.1 200 OK\n{\"health\":\"ok\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-106",
+          "test_case": "Redundant Power Supplies",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-107",
+          "test_case": "Memory Consistency",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3",
+            "API Response:\n{\"status\":\"success\",\"message\":\"Memory Consistency executed\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-108",
+          "test_case": "CPU Socket Consistency",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "API Response:\n{\"status\":\"success\",\"message\":\"CPU Socket Consistency executed\"}",
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-109",
+          "test_case": "CPU Core Consistency",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-110",
+          "test_case": "CPU Family Consistency",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms",
+            "API Response:\n{\"status\":\"success\",\"message\":\"CPU Family Consistency executed\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-111",
+          "test_case": "Network Adapter Consistency",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-112",
+          "test_case": "Network Adapter Connectivity",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m",
+            "API Response:\n{\"status\":\"success\",\"message\":\"Network Adapter Connectivity executed\"}"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-113",
+          "test_case": "HBA Adapter Connectivity",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m",
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-114",
+          "test_case": "Multipathing Availability",
+          "status": "Blocked",
+          "failure_details": "",
+          "evidence": [
+            "$ oc get nodes\nNAME        STATUS   ROLES    AGE   VERSION\nnode-1      Ready    worker   10d   v1.27.3"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-115",
+          "test_case": "Check TPM Presence",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ kubectl get pods -n default\nNAME        READY   STATUS    RESTARTS   AGE\napp-pod     1/1     Running   0          5m"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-116",
+          "test_case": "Enable Hyper-Threading",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms"
+          ],
+          "created_date": "2026-04-16"
+        },
+        {
+          "id": "TC-117",
+          "test_case": "Enable VT (Virtualization)",
+          "status": "Passed",
+          "failure_details": "",
+          "evidence": [
+            "$ ping google.com\n64 bytes from 142.250.x.x: icmp_seq=1 ttl=115 time=20 ms",
+            "API Response:\n{\"status\":\"success\",\"message\":\"Enable VT (Virtualization) executed\"}"
+          ],
+          "created_date": "2026-04-16"
+        }
+      ]
+    }
+  ]
+}
